@@ -1,3 +1,6 @@
+# https://medium.com/slanglabs/how-to-build-python-transcriber-using-mozilla-deepspeech-5485b8d234cf
+# https://medium.com/slanglabs/automatic-speech-recognition-in-python-programs-a64851ad29b3
+
 import deepspeech
 import numpy as np
 import os
