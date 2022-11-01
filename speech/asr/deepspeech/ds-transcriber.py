@@ -1,35 +1,61 @@
-# https://www.ml4devs.com/articles/how-to-build-python-transcriber-using-mozilla-deepspeech/
-# https://www.ml4devs.com/articles/speech-recognition-with-python/
+# (c) Copyright 2020-2022 Satish Chandra Gupta
+# 
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
 
-import deepspeech
+
+# For more explanation, check following blog posts:
+#   - https://www.ml4devs.com/articles/how-to-build-python-transcriber-using-mozilla-deepspeech/
+#   - https://www.ml4devs.com/articles/speech-recognition-with-python/
+
+import stt
 import numpy as np
 import os
 import pyaudio
 import time
 
 # DeepSpeech parameters
-DEEPSPEECH_MODEL_DIR = 'deepspeech-0.6.0-models'
-MODEL_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'output_graph.pbmm')
-BEAM_WIDTH = 500
-LM_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'lm.binary')
-TRIE_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'trie')
+DEEPSPEECH_MODEL_DIR = 'coqui-stt-1.0.0-models'
+MODEL_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'model.tflite')
+SCORER_FILE_PATH = os.path.join(DEEPSPEECH_MODEL_DIR, 'large_vocabulary.scorer')
 LM_ALPHA = 0.75
 LM_BETA = 1.85
+BEAM_WIDTH = 500
 
 # Make DeepSpeech Model
-model = deepspeech.Model(MODEL_FILE_PATH, BEAM_WIDTH)
-model.enableDecoderWithLM(LM_FILE_PATH, TRIE_FILE_PATH, LM_ALPHA, LM_BETA)
+model = stt.Model(MODEL_FILE_PATH)
+model.enableExternalScorer(SCORER_FILE_PATH)
+model.setScorerAlphaBeta(LM_ALPHA, LM_BETA)
+model.setBeamWidth(BEAM_WIDTH)
 
 # Create a Streaming session
-context = model.createStream()
+stt_stream = model.createStream()
 
 # Encapsulate DeepSpeech audio feeding into a callback for PyAudio
 text_so_far = ''
 def process_audio(in_data, frame_count, time_info, status):
     global text_so_far
     data16 = np.frombuffer(in_data, dtype=np.int16)
-    model.feedAudioContent(context, data16)
-    text = model.intermediateDecode(context)
+    stt_stream.feedAudioContent(data16)
+    text = stt_stream.intermediateDecode()
     if text != text_so_far:
         print('Interim text = {}'.format(text))
         text_so_far = text
@@ -65,5 +91,5 @@ except KeyboardInterrupt:
     audio.terminate()
     print('Finished recording.')
     # DeepSpeech
-    text = model.finishStream(context)
+    text = stt_stream.finishStream()
     print('Final text = {}'.format(text))
