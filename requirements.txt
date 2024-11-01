@@ -4,6 +4,11 @@
 #
 #    pip-compile requirements.in
 #
+absl-py==2.1.0
+    # via
+    #   keras
+    #   tensorboard
+    #   tensorflow
 annotated-types==0.7.0
     # via pydantic
 anyio==4.6.2.post1
@@ -12,6 +17,8 @@ anyio==4.6.2.post1
     #   openai
     #   starlette
     #   watchfiles
+astunparse==1.6.3
+    # via tensorflow
 attrs==24.2.0
     # via
     #   jsonschema
@@ -22,6 +29,9 @@ certifi==2024.8.30
     # via
     #   httpcore
     #   httpx
+    #   requests
+charset-normalizer==3.4.0
+    # via requests
 click==8.1.7
     # via
     #   dask
@@ -50,7 +60,7 @@ dnspython==2.7.0
     # via email-validator
 email-validator==2.2.0
     # via fastapi
-et-xmlfile==1.1.0
+et-xmlfile==2.0.0
     # via openpyxl
 exceptiongroup==1.2.2
     # via anyio
@@ -60,16 +70,34 @@ fastapi[all]==0.111.1
     # via -r requirements.in
 fastapi-cli==0.0.5
     # via fastapi
+filelock==3.16.1
+    # via torch
+flatbuffers==24.3.25
+    # via tensorflow
 fonttools==4.54.1
     # via matplotlib
 fsspec==2024.10.0
-    # via dask
+    # via
+    #   dask
+    #   torch
+gast==0.6.0
+    # via tensorflow
+google-pasta==0.2.0
+    # via tensorflow
 gpustat==1.0.0
     # via -r requirements.in
+grpcio==1.67.1
+    # via
+    #   tensorboard
+    #   tensorflow
 h11==0.14.0
     # via
     #   httpcore
     #   uvicorn
+h5py==3.12.1
+    # via
+    #   keras
+    #   tensorflow
 httpcore==1.0.6
     # via httpx
 httptools==0.6.4
@@ -84,28 +112,49 @@ idna==3.10
     #   anyio
     #   email-validator
     #   httpx
+    #   requests
 importlib-metadata==8.5.0
     # via dask
 itsdangerous==2.2.0
     # via fastapi
+jax==0.4.26
+    # via
+    #   -r requirements.in
+    #   jax-metal
+jax-metal==0.1.0
+    # via -r requirements.in
+jaxlib==0.4.26
+    # via
+    #   -r requirements.in
+    #   jax-metal
 jinja2==3.1.4
-    # via fastapi
+    # via
+    #   fastapi
+    #   torch
 jsonschema==4.22.0
     # via -r requirements.in
 jsonschema-specifications==2024.10.1
     # via jsonschema
+keras==3.6.0
+    # via tensorflow
 kiwisolver==1.4.7
     # via matplotlib
+libclang==18.1.1
+    # via tensorflow
 line-profiler==4.1.3
     # via -r requirements.in
 llvmlite==0.43.0
     # via numba
 locket==1.0.0
     # via partd
+markdown==3.7
+    # via tensorboard
 markdown-it-py==3.0.0
     # via rich
 markupsafe==3.0.2
-    # via jinja2
+    # via
+    #   jinja2
+    #   werkzeug
 matplotlib==3.7.5
     # via
     #   -r requirements.in
@@ -115,8 +164,20 @@ matplotx==0.3.10
     # via perfplot
 mdurl==0.1.2
     # via markdown-it-py
+ml-dtypes==0.3.2
+    # via
+    #   jax
+    #   jaxlib
+    #   keras
+    #   tensorflow
+mpmath==1.3.0
+    # via sympy
+namex==0.0.8
+    # via keras
 networkx==3.3
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   torch
 numba==0.60.0
     # via -r requirements.in
 numpy==1.26.4
@@ -124,26 +185,42 @@ numpy==1.26.4
     #   -r requirements.in
     #   contourpy
     #   dask
+    #   h5py
+    #   jax
+    #   jaxlib
+    #   keras
     #   matplotlib
     #   matplotx
+    #   ml-dtypes
     #   numba
     #   openai
     #   pandas
     #   pandas-stubs
     #   perfplot
-    #   pyarrow
+    #   scipy
+    #   tensorboard
+    #   tensorflow
+    #   torchvision
 nvidia-ml-py==11.495.46
     # via gpustat
 openai[datalib]==1.35.14
     # via -r requirements.in
 openpyxl==3.1.5
     # via -r requirements.in
+opt-einsum==3.4.0
+    # via
+    #   jax
+    #   tensorflow
+optree==0.13.0
+    # via keras
 orjson==3.10.10
     # via fastapi
 packaging==24.1
     # via
     #   dask
+    #   keras
     #   matplotlib
+    #   tensorflow
 pandarallel==1.6.5
     # via -r requirements.in
 pandas==2.2.3
@@ -161,13 +238,19 @@ partd==1.4.2
 perfplot==0.10.2
     # via -r requirements.in
 pillow==11.0.0
-    # via matplotlib
+    # via
+    #   matplotlib
+    #   torchvision
+protobuf==4.25.5
+    # via
+    #   tensorboard
+    #   tensorflow
 psutil==6.1.0
     # via
     #   gpustat
     #   pandarallel
     #   swifter
-pyarrow==17.0.0
+pyarrow==18.0.0
     # via dask-expr
 pydantic==2.9.2
     # via
@@ -179,7 +262,7 @@ pydantic-core==2.23.4
     # via pydantic
 pydantic-extra-types==2.9.0
     # via fastapi
-pydantic-settings==2.6.0
+pydantic-settings==2.6.1
     # via fastapi
 pygments==2.18.0
     # via rich
@@ -197,7 +280,7 @@ python-dotenv==1.0.1
     #   -r requirements.in
     #   pydantic-settings
     #   uvicorn
-python-multipart==0.0.12
+python-multipart==0.0.17
     # via fastapi
 pytz==2024.2
     # via
@@ -212,21 +295,34 @@ referencing==0.35.1
     # via
     #   jsonschema
     #   jsonschema-specifications
+requests==2.32.3
+    # via tensorflow
 rich==13.9.3
     # via
+    #   keras
     #   perfplot
     #   typer
-rpds-py==0.20.0
+rpds-py==0.20.1
     # via
     #   jsonschema
     #   referencing
+scipy==1.14.1
+    # via
+    #   jax
+    #   jaxlib
 shellingham==1.5.4
     # via typer
 six==1.16.0
     # via
+    #   astunparse
     #   blessed
+    #   google-pasta
     #   gpustat
+    #   jax-metal
     #   python-dateutil
+    #   tensorboard
+    #   tensorflow
+    #   tensorflow-metal
 sniffio==1.3.1
     # via
     #   anyio
@@ -238,11 +334,38 @@ starlette==0.37.2
     # via fastapi
 swifter==1.4.0
     # via -r requirements.in
+sympy==1.13.3
+    # via torch
+tensorboard==2.16.2
+    # via tensorflow
+tensorboard-data-server==0.7.2
+    # via tensorboard
+tensorflow==2.16.1
+    # via
+    #   -r requirements.in
+    #   tensorflow-macos
+tensorflow-io-gcs-filesystem==0.37.1
+    # via tensorflow
+tensorflow-macos==2.16.1
+    # via -r requirements.in
+tensorflow-metal==1.1.0
+    # via -r requirements.in
+termcolor==2.5.0
+    # via tensorflow
 toolz==1.0.0
     # via
     #   dask
     #   partd
-tqdm==4.66.5
+torch==2.4.0
+    # via
+    #   -r requirements.in
+    #   torchaudio
+    #   torchvision
+torchaudio==2.4.0
+    # via -r requirements.in
+torchvision==0.19.0
+    # via -r requirements.in
+tqdm==4.66.6
     # via
     #   openai
     #   swifter
@@ -256,17 +379,22 @@ typing-extensions==4.12.2
     #   faker
     #   fastapi
     #   openai
+    #   optree
     #   pydantic
     #   pydantic-core
     #   pypdf
     #   rich
     #   sqlalchemy
+    #   tensorflow
+    #   torch
     #   typer
     #   uvicorn
 tzdata==2024.2
     # via pandas
 ujson==5.10.0
     # via fastapi
+urllib3==2.2.3
+    # via requests
 uvicorn[standard]==0.32.0
     # via
     #   fastapi
@@ -279,6 +407,15 @@ wcwidth==0.2.13
     # via blessed
 websockets==13.1
     # via uvicorn
+werkzeug==3.1.0
+    # via tensorboard
+wheel==0.44.0
+    # via
+    #   astunparse
+    #   jax-metal
+    #   tensorflow-metal
+wrapt==1.16.0
+    # via tensorflow
 xlrd==2.0.1
     # via -r requirements.in
 zipp==3.20.2
