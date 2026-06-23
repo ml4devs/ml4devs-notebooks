@@ -4,7 +4,7 @@ This repository hosts companion notebooks and code snippets for [ML4Devs.com](ht
 
 - LLMs
   - [`nlp_with_gpt_notebook.ipynb`](llm/nlp_with_gpt_notebook.ipynb) : Sentiment Analysis, Language Translation, and Named-Entity Recognition with GPT
-  - [`translate_natural_language_query_to_sql_notebook.ipynb`](gpt/translate_natural_language_query_to_sql_notebook.ipynb) : Translate Natural Language Queries to SQL, and execute it on a database
+  - [`translate_natural_language_query_to_sql_notebook.ipynb`](llm/translate_natural_language_query_to_sql_notebook.ipynb) : Translate Natural Language Queries to SQL, and execute it on a database
 - Pandas
   - [`pandas_apply_fn_on_dataframe.ipynb`](pandas/pandas_apply_fn_on_dataframe.ipynb) : Better ways to [apply a function to each row in Pandas DataFrame](https://www.ml4devs.com/articles/pandas-dataframe-apply-function-iterate-over-rows/)
 - Speech
